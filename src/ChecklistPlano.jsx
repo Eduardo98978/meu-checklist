@@ -100,7 +100,7 @@ const plano = [
   {
     dia: "Sábado",
     treino: [
-      "PolichineloAAAAAAAAAAAAAAAAAAAA – 30s",
+      "Polichinelo – 30s",
       "Agachamento rápido – 30s",
       "Prancha – 30s",
       "Corrida parada (joelho alto) – 30s",
