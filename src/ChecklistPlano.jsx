@@ -98,7 +98,7 @@ const plano = [
     },
   },
   {
-    dia: "Sábado",
+    dia: "SábadoAAAAAAAAAAA",
     treino: [
       "Polichinelo – 30s",
       "Agachamento rápido – 30s",
