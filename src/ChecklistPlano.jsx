@@ -4,83 +4,127 @@ import { ChevronDown, RefreshCcw, ChevronLeft, ChevronRight } from "lucide-react
 // ===================== DADOS =====================
 const plano = [
   {
-    dia: "Segunda",
-    treino: "Academia (Peito + Tríceps + Abdômen)",
+    dia: "Segunda (Peito + Tríceps + Abdômen)",
+    treino: [
+      "Supino reto (máquina ou barra) – 3x10–12",
+      "Supino inclinado (halteres ou máquina) – 3x10–12",
+      "Peck Deck (voador) – 3x12–15",
+      "Tríceps polia alta (barra ou corda) – 3x12–15",
+      "Tríceps banco (no banco, peso do corpo ou com anilha no colo) – 3x10–12",
+      "Abdominal reto (no colchonete ou máquina) – 3x15–20",
+      "Prancha abdominal – 3x30s–1min",
+    ],
     refeicoes: {
-      "Café da manhã": ["Pão + 2 ovos mexidos", "Leite", "Fruta"],
-      "Pré-treino": ["Banana com aveia OU pão com ovo"],
-      "Almoço / Pós-treino": ["Marmita (arroz, feijão, carne, salada)", "+ 2 ovos"],
-      "Café da tarde": ["Banana", "Amendoim/castanhas (ou bolacha)", "Fruta"],
-      Janta: ["Arroz + feijão", "Carne/Frango", "Salada"],
-      Ceia: ["Leite integral", "Pão/bolo caseiro OU ovo"],
+      "Café da manhã": ["Pão (1–2 fatias) + 2 ovos mexidos", "Leite (250 ml)", "Fruta (banana/maçã)"],
+      "Pré-treino": ["Banana com 1–2 colheres de aveia OU pão com ovo"],
+      "Almoço / Pós-treino": ["Arroz + feijão", "Carne/Frango (1 porção)", "Salada/legumes", "+ 1 ovo cozido"],
+      "Café da tarde": ["Iogurte natural + fruta OU banana + amendoim"],
+      Janta: ["Arroz + feijão", "Carne/Frango/Peixe", "Salada"],
+      Ceia: ["Leite OU iogurte", "Fruta (se tiver fome)"],
     },
   },
   {
-    dia: "Terça",
-    treino: "Em casa (Full body leve, 20min)",
+    treino: [
+      "Agachamento livre – 3x15",
+      "Flexão de braço – 3x10 (ajoelhado se for pesado)",
+      "Prancha – 3x30–45s",
+      "Afundo (avanço) – 3x12 por perna",
+      "Polichinelo – 3x30s",
+    ],
     refeicoes: {
-      "Café da manhã": ["Pão + ovo", "Leite", "Fruta"],
-      "Almoço / Pós-treino": ["Arroz + feijão", "Frango/Carne", "Salada"],
+      "Café da manhã": ["Pão + 1 ovo", "Leite (250 ml)", "Fruta"],
+      "Almoço": ["Arroz + feijão", "Frango/Carne", "Salada/legumes"],
       "Café da tarde": ["Fruta + iogurte OU banana + aveia"],
       Janta: ["Arroz + feijão", "Carne/Frango", "Salada"],
-      Ceia: ["Leite + pão/queijo"],
+      Ceia: ["Leite + pão/queijo OU iogurte"],
     },
   },
   {
     dia: "Quarta",
-    treino: "Academia (Costas + Bíceps + Core)",
+    treino: [
+      "Puxada frontal na polia (pegada aberta) – 3x10–12",
+      "Remada baixa (máquina ou polia) – 3x10–12",
+      "Remada unilateral (halter) – 3x10 cada lado",
+      "Rosca direta (halteres ou barra W) – 3x12",
+      "Rosca martelo (halteres) – 3x12",
+      "Elevação de pernas (na barra ou colchonete) – 3x12–15",
+      "Prancha lateral – 3x30s cada lado",
+    ],
     refeicoes: {
-      "Café da manhã": ["Tapioca", "2 ovos", "Fruta", "Leite"],
+      "Café da manhã": ["Tapioca (2 col.) + 2 ovos", "Leite (250 ml)", "Fruta"],
       "Pré-treino": ["Banana com aveia OU pão com ovo"],
-      "Almoço / Pós-treino": ["Marmita (arroz, feijão, carne, salada)", "+ 2-3 ovos"],
-      "Café da tarde": ["Banana + amendoim"],
+      "Almoço / Pós-treino": ["Arroz + feijão", "Carne/Frango (1 porção)", "Salada/legumes", "+ 1–2 ovos"],
+      "Café da tarde": ["Sanduíche natural (pão + frango desfiado/atum + salada)"],
       Janta: ["Arroz + feijão", "Carne/Frango", "Salada"],
       Ceia: ["Iogurte natural + fruta"],
     },
   },
   {
     dia: "Quinta",
-    treino: "Em casa (Força corporal, 25min)",
+    treino: [
+      "Agachamento com pausa (2s embaixo) – 3x12",
+      "Flexão com variação (normal/inclinada) – 3x10–12",
+      "Prancha com toque no ombro – 3x12 cada lado",
+      "Afundo caminhando – 3x12 por perna",
+      "Burpee leve (sem salto alto) – 3x8–10",
+    ],
     refeicoes: {
-      "Café da manhã": ["Pão integral + ovo", "Fruta", "Leite"],
-      "Almoço / Pós-treino": ["Arroz + feijão", "Frango/Carne", "Salada", "+ ovo"],
-      "Café da tarde": ["Fruta + bolacha OU banana + amendoim"],
+      "Café da manhã": ["Pão integral + 1 ovo", "Fruta", "Leite (250 ml)"],
+      "Almoço": ["Arroz + feijão", "Frango/Carne", "Salada/legumes", "+ 1 ovo"],
+      "Café da tarde": ["Fruta + bolacha simples OU banana + amendoim"],
       Janta: ["Arroz + feijão", "Carne/Frango", "Salada + ovo"],
-      Ceia: ["Leite + fruta"],
+      Ceia: ["Leite OU iogurte + fruta"],
     },
   },
   {
     dia: "Sexta",
-    treino: "Academia (Pernas + Ombros + Abdômen)",
+    treino: [
+      "Agachamento no Smith (guiado) – 3x10–12",
+      "Leg Press 45° – 3x12–15",
+      "Cadeira extensora (quadríceps) – 3x12–15",
+      "Mesa flexora (posterior de coxa) – 3x12–15",
+      "Elevação lateral (halteres, ombros) – 3x12",
+      "Desenvolvimento de ombro (halteres ou máquina) – 3x10–12",
+      "Abdominal bicicleta (no colchonete) – 3x15–20",
+    ],
     refeicoes: {
-      "Café da manhã": ["Pão + ovo", "Fruta", "Leite"],
+      "Café da manhã": ["Pão + 1–2 ovos", "Fruta", "Leite (250 ml)"],
       "Pré-treino": ["Banana com aveia OU pão com ovo"],
-      "Almoço / Pós-treino": ["Marmita (arroz, feijão, carne, salada)", "+ 2 ovos"],
+      "Almoço / Pós-treino": ["Arroz + feijão", "Carne/Frango (1 porção)", "Salada/legumes", "+ 1 ovo"],
       "Café da tarde": ["Fruta + amendoim/castanhas"],
-      Janta: ["Refeição livre (hambúrguer, lasanha, cachorro-quente)"],
+      Janta: ["Refeição livre (hambúrguer/pizza/lanche)"],
       Ceia: ["Iogurte OU fruta (se tiver fome)"],
     },
   },
   {
     dia: "Sábado",
-    treino: "Em casa (HIIT leve, 20min)",
+    treino: [
+      "Polichinelo – 30s",
+      "Agachamento rápido – 30s",
+      "Prancha – 30s",
+      "Corrida parada (joelho alto) – 30s",
+      "Repetir circuito 4–5 voltas (30s exercício / 30s descanso)",
+    ],
     refeicoes: {
-      "Café da manhã": ["Omelete (2 ovos + queijo)", "Fruta", "Leite"],
-      "Almoço / Pós-treino": ["Arroz + feijão", "Frango/ovo", "Salada"],
-      "Café da tarde": ["Fruta + iogurte"],
-      Janta: ["Refeição livre (hambúrguer, pizza)"],
-      Ceia: ["Pode pular se estiver cheio"],
+      "Café da manhã": ["Omelete (2 ovos + queijo)", "Fruta", "Leite (250 ml)"],
+      "Almoço": ["Arroz + feijão", "Frango/ovo", "Salada/legumes"],
+      "Café da tarde": ["Fruta + iogurte OU sanduíche natural pequeno"],
+      Janta: ["Refeição livre (hambúrguer/pizza)"],
+      Ceia: ["Pode pular se estiver satisfeito"],
     },
   },
   {
     dia: "Domingo",
-    treino: "Descanso ativo (caminhada, alongamento)",
+    treino: [
+      "Caminhada leve 20–30min",
+      "Alongamento geral 10–15min",
+    ],
     refeicoes: {
-      "Café da manhã": ["Fruta + aveia", "2 ovos"],
-      "Almoço / Pós-treino": ["Arroz + feijão", "Carne/Frango/Peixe", "Salada"],
+      "Café da manhã": ["Fruta + aveia", "2 ovos (mexidos/cozidos)"],
+      "Almoço": ["Arroz + feijão", "Carne/Frango/Peixe", "Salada/legumes"],
       "Café da tarde": ["Fruta + iogurte"],
       Janta: ["Arroz + feijão", "Carne/Frango", "Salada"],
-      Ceia: ["Leite + fruta"],
+      Ceia: ["Leite + fruta (opcional)"],
     },
   },
 ];
@@ -119,9 +163,8 @@ function Section({ title, children }) {
 function ToggleItem({ id, label, checked, onChange, disabled }) {
   return (
     <label
-      className={`flex items-start gap-3 cursor-pointer select-none py-2 ${
-        disabled ? "opacity-50 cursor-not-allowed" : ""
-      }`}
+      className={`flex items-start gap-3 cursor-pointer select-none py-2 ${disabled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
     >
       <input
         type="checkbox"
@@ -131,9 +174,8 @@ function ToggleItem({ id, label, checked, onChange, disabled }) {
         onChange={() => !disabled && onChange(id)}
       />
       <span
-        className={`leading-6 ${
-          checked ? "line-through text-gray-400" : "text-gray-800 dark:text-gray-100"
-        }`}
+        className={`leading-6 ${checked ? "line-through text-gray-400" : "text-gray-800 dark:text-gray-100"
+          }`}
       >
         {label}
       </span>
@@ -209,7 +251,7 @@ function CalendarModal({ open, onClose, selectedDate, setSelectedDate, today, pc
           </div>
         </div>
         <div className="grid grid-cols-7 text-xs text-center text-gray-500 dark:text-gray-400 mb-1">
-          {["D","S","T","Q","Q","S","S"].map((d) => <div key={d}>{d}</div>)}
+          {["D", "S", "T", "Q", "Q", "S", "S"].map((d) => <div key={d}>{d}</div>)}
         </div>
         <div className="grid grid-cols-7 gap-2">
           {weeks.flat().map((d, i) => (
@@ -252,7 +294,7 @@ export default function ChecklistPlano() {
   useEffect(() => {
     const raw = localStorage.getItem(storageKey);
     if (raw) {
-      try { setChecks(JSON.parse(raw)); } catch {}
+      try { setChecks(JSON.parse(raw)); } catch { }
     } else {
       setChecks({});
     }
@@ -267,7 +309,7 @@ export default function ChecklistPlano() {
   const resetDay = () => setChecks({});
 
   const idsDoDiaSelecionado = () => {
-    const map = {0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5};
+    const map = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
     return plano[map[selectedDate.getDay()]];
   };
   const planoDoDia = idsDoDiaSelecionado();
@@ -283,7 +325,7 @@ export default function ChecklistPlano() {
     const raw = localStorage.getItem(keyForDate(d));
     if (!raw) return 0;
     const stored = JSON.parse(raw);
-    const map = {0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5};
+    const map = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
     const dayPlan = plano[map[d.getDay()]];
     const ids = idsDoDia(dayPlan);
     const done = ids.filter((id) => stored[id]).length;
