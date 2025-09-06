@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, RefreshCcw, ChevronLeft, ChevronRight } from "lucide-react";
 
-// ===================== DADOS =====================
+// ===================== DADOS ===================== //
+
 const plano = [
   {
     dia: "Segunda (Peito + Tríceps + Abdômen)",
@@ -133,11 +134,26 @@ const plano = [
 const fmt = (d) => d.toISOString().slice(0, 10);
 const keyForDate = (d) => `plano-checks-v2:${fmt(d)}`;
 
-function idsDoDia(d) {
-  const ids = [`${d.dia}|treino`];
-  Object.entries(d.refeicoes).forEach(([sec, items]) => {
-    items.forEach((_, i) => ids.push(`${d.dia}|${sec}|${i}`));
+/**
+ * Gera todos os IDs de check do dia.
+ * - Se treino for array => 1 id por exercício
+ * - Se treino for string => 1 id único
+ * - Refeições => 1 id por item
+ */
+function idsDoDia(diaPlan) {
+  if (!diaPlan) return [];
+  const ids = [];
+
+  if (Array.isArray(diaPlan.treino)) {
+    diaPlan.treino.forEach((_, i) => ids.push(`${diaPlan.dia}|treino|${i}`));
+  } else if (diaPlan.treino) {
+    ids.push(`${diaPlan.dia}|treino`);
+  }
+
+  Object.entries(diaPlan.refeicoes || {}).forEach(([sec, items]) => {
+    items.forEach((_, i) => ids.push(`${diaPlan.dia}|${sec}|${i}`));
   });
+
   return ids;
 }
 
@@ -163,8 +179,9 @@ function Section({ title, children }) {
 function ToggleItem({ id, label, checked, onChange, disabled }) {
   return (
     <label
-      className={`flex items-start gap-3 cursor-pointer select-none py-2 ${disabled ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+      className={`flex items-start gap-3 cursor-pointer select-none py-2 ${
+        disabled ? "opacity-50 cursor-not-allowed" : ""
+      }`}
     >
       <input
         type="checkbox"
@@ -174,8 +191,9 @@ function ToggleItem({ id, label, checked, onChange, disabled }) {
         onChange={() => !disabled && onChange(id)}
       />
       <span
-        className={`leading-6 ${checked ? "line-through text-gray-400" : "text-gray-800 dark:text-gray-100"
-          }`}
+        className={`leading-6 ${
+          checked ? "line-through text-gray-400" : "text-gray-800 dark:text-gray-100"
+        }`}
       >
         {label}
       </span>
@@ -251,7 +269,7 @@ function CalendarModal({ open, onClose, selectedDate, setSelectedDate, today, pc
           </div>
         </div>
         <div className="grid grid-cols-7 text-xs text-center text-gray-500 dark:text-gray-400 mb-1">
-          {["D", "S", "T", "Q", "Q", "S", "S"].map((d) => <div key={d}>{d}</div>)}
+          {["D","S","T","Q","Q","S","S"].map((d) => <div key={d}>{d}</div>)}
         </div>
         <div className="grid grid-cols-7 gap-2">
           {weeks.flat().map((d, i) => (
@@ -285,7 +303,7 @@ export default function ChecklistPlano() {
   const [selectedDate, setSelectedDate] = useState(today);
 
   // ===== UI =====
-  const [openCal, setOpenCal] = useState(false); // << só uma vez!
+  const [openCal, setOpenCal] = useState(false);
 
   const [checks, setChecks] = useState({});
   const storageKey = keyForDate(selectedDate);
@@ -294,7 +312,7 @@ export default function ChecklistPlano() {
   useEffect(() => {
     const raw = localStorage.getItem(storageKey);
     if (raw) {
-      try { setChecks(JSON.parse(raw)); } catch { }
+      try { setChecks(JSON.parse(raw)); } catch {}
     } else {
       setChecks({});
     }
@@ -308,9 +326,10 @@ export default function ChecklistPlano() {
   const toggle = (id) => setChecks((c) => ({ ...c, [id]: !c[id] }));
   const resetDay = () => setChecks({});
 
+  // Seleciona o plano do dia pela ordem: [Seg, Ter, Qua, Qui, Sex, Sáb, Dom]
   const idsDoDiaSelecionado = () => {
-    const map = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
-    return plano[map[selectedDate.getDay()]];
+    const map = {0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5};
+    return (typeof plano !== "undefined" && plano[map[selectedDate.getDay()]]) || null;
   };
   const planoDoDia = idsDoDiaSelecionado();
 
@@ -325,8 +344,8 @@ export default function ChecklistPlano() {
     const raw = localStorage.getItem(keyForDate(d));
     if (!raw) return 0;
     const stored = JSON.parse(raw);
-    const map = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
-    const dayPlan = plano[map[d.getDay()]];
+    const map = {0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5};
+    const dayPlan = (typeof plano !== "undefined" && plano[map[d.getDay()]]) || null;
     const ids = idsDoDia(dayPlan);
     const done = ids.filter((id) => stored[id]).length;
     return ids.length ? Math.round((done / ids.length) * 100) : 0;
@@ -334,7 +353,10 @@ export default function ChecklistPlano() {
 
   const lockedCondition = (d) => d < today;
 
-  const stats = statsDia(planoDoDia);
+  const stats = planoDoDia ? statsDia(planoDoDia) : { total: 0, feitos: 0, pct: 0 };
+  const treinoResumo = planoDoDia
+    ? (Array.isArray(planoDoDia.treino) ? planoDoDia.treino.join(" • ") : (planoDoDia.treino || ""))
+    : "";
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-zinc-950 dark:to-zinc-900 p-6 text-gray-900 dark:text-gray-100">
@@ -350,49 +372,72 @@ export default function ChecklistPlano() {
           </div>
         </header>
 
-        <div className="mb-4">
-          <h2 className="text-xl font-bold">
-            {planoDoDia.dia}, {selectedDate.toLocaleDateString()}
-          </h2>
-          <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">{planoDoDia.treino}</div>
-          <div className="h-2 w-full bg-gray-200 dark:bg-zinc-800 rounded-full overflow-hidden mt-2">
-            <div className="h-2 bg-indigo-500" style={{ width: `${stats.pct}%` }} />
-          </div>
-          <div className="mt-1 text-xs">{stats.feitos}/{stats.total} concluídos ({stats.pct}%)</div>
-        </div>
+        {planoDoDia ? (
+          <>
+            <div className="mb-4">
+              <h2 className="text-xl font-bold">
+                {planoDoDia.dia}, {selectedDate.toLocaleDateString()}
+              </h2>
+              <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">{treinoResumo}</div>
+              <div className="h-2 w-full bg-gray-200 dark:bg-zinc-800 rounded-full overflow-hidden mt-2">
+                <div className="h-2 bg-indigo-500" style={{ width: `${stats.pct}%` }} />
+              </div>
+              <div className="mt-1 text-xs">{stats.feitos}/{stats.total} concluídos ({stats.pct}%)</div>
+            </div>
 
-        <Section title="Treino">
-          <ToggleItem
-            id={`${planoDoDia.dia}|treino`}
-            label={planoDoDia.treino}
-            checked={!!checks[`${planoDoDia.dia}|treino`]}
-            onChange={toggle}
-            disabled={lockedCondition(selectedDate)}
-          />
-        </Section>
-
-        <div className="mt-3 space-y-3">
-          {Object.entries(planoDoDia.refeicoes).map(([sec, items]) => (
-            <Section key={sec} title={sec}>
-              {items.map((it, i) => (
+            {/* Treino: um checkbox por exercício quando treino for array */}
+            <Section title="Treino">
+              {Array.isArray(planoDoDia.treino) ? (
+                planoDoDia.treino.map((ex, i) => (
+                  <ToggleItem
+                    key={i}
+                    id={`${planoDoDia.dia}|treino|${i}`}
+                    label={ex}
+                    checked={!!checks[`${planoDoDia.dia}|treino|${i}`]}
+                    onChange={toggle}
+                    disabled={lockedCondition(selectedDate)}
+                  />
+                ))
+              ) : (
                 <ToggleItem
-                  key={i}
-                  id={`${planoDoDia.dia}|${sec}|${i}`}
-                  label={it}
-                  checked={!!checks[`${planoDoDia.dia}|${sec}|${i}`]}
+                  id={`${planoDoDia.dia}|treino`}
+                  label={planoDoDia.treino}
+                  checked={!!checks[`${planoDoDia.dia}|treino`]}
                   onChange={toggle}
                   disabled={lockedCondition(selectedDate)}
                 />
-              ))}
+              )}
             </Section>
-          ))}
-        </div>
 
-        <div className="mt-6 flex justify-end">
-          <button onClick={resetDay} className="flex items-center gap-2 px-4 py-2 border rounded-xl">
-            <RefreshCcw className="h-4 w-4" /> Reset do dia
-          </button>
-        </div>
+            {/* Refeições */}
+            <div className="mt-3 space-y-3">
+              {Object.entries(planoDoDia.refeicoes || {}).map(([sec, items]) => (
+                <Section key={sec} title={sec}>
+                  {items.map((it, i) => (
+                    <ToggleItem
+                      key={i}
+                      id={`${planoDoDia.dia}|${sec}|${i}`}
+                      label={it}
+                      checked={!!checks[`${planoDoDia.dia}|${sec}|${i}`]}
+                      onChange={toggle}
+                      disabled={lockedCondition(selectedDate)}
+                    />
+                  ))}
+                </Section>
+              ))}
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button onClick={resetDay} className="flex items-center gap-2 px-4 py-2 border rounded-xl">
+                <RefreshCcw className="h-4 w-4" /> Reset do dia
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="text-sm text-red-500">
+            ⚠️ Cole o <code>const plano = [ ... ]</code> no topo deste arquivo para exibir o checklist.
+          </div>
+        )}
       </div>
 
       <CalendarModal
